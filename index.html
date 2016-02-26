@@ -11,7 +11,7 @@
 
 <body ng-controller="homeCtrl">
 	<div class="l-header">
-		<h1>{{myProfile.name}}</h1>
+		<h1>{{ myProfile.name || 'Your Name' }}</h1>
 	</div>
   
   <div class="wrapper">  
@@ -31,14 +31,14 @@
       <input id="favColor" type="text" placeholder="Favorite Color" ng-model="myProfile.favColor" ng-disabled="!editing">
       <br />
       <button class="l-btn l-btn-success" ng-click="saveProfile(myProfile)">Save</button>
-      <button class="l-btn l-btn-danger" ng-click"deleteProfile(myProfile)">Delete</button>
+      <button class="l-btn l-btn-danger" ng-click="deleteProfile(myProfile)">Delete</button>
     </div>
   </div>
 
   <div class="l-container">
     <h2>Friends</h2>
 
-    <button class="l-btn l-btn-main">Go</button>
+    <button class="l-btn l-btn-main" ng-click="findFriend(findFriend.name)">Go</button>
     <input type="text" placeholder="Find Friends" ng-model="findFriend.name">
     <select ng-model="sortReverse" ng-options="option.value as option.display for option in sortOptions"></select>
     <div class="friendList" ng-repeat="friend in myProfile.friends | filter : findFriend.name | orderBy : 'name' : sortReverse">
@@ -60,7 +60,9 @@
 				</div>
 					<br />
 				<div class="friendList">
-					<span class="friend"></span> Potential Friends
+					<span class="friend" ng-repeat="friends in potentialFriends" ng-click"closeBtn">{{friends}}
+            <button ng-click="addFriend(friend._id)"></button>
+          </span> Potential Friends
 				</div>
 			</div>
 		</div>
@@ -69,6 +71,7 @@
   <script src="app.js"></script>
   <script src="homeCtrl.js"></script>
   <script src="profileService.js"></script>
+  <script src="friendService.js"></script>
 </body>
 
 </html>
